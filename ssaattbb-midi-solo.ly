@@ -989,3 +989,113 @@
     \midi {}
   }
 }
+
+%
+% Soprano I Midi
+%
+\book {
+  \bookOutputName #(string-append Title " - Solo")
+  \score {
+    \new StaffGroup <<
+      \new DrumStaff \with {
+        midiMaximumVolume = \metronomeMaxVolume
+        midiMinimumVolume = \metronomeMinVolume
+        midiPanPosition = \metronomePan
+      } {
+        \metronomeMusic
+      }
+      \new Staff \with {
+        midiInstrument = \dominantInstrument
+        midiMaximumVolume = \dominantMaxVolume
+        midiMinimumVolume = \dominantMinVolume
+        midiPanPosition = \dominantPan
+      } <<
+        \new Voice = "solo" {
+          \soloMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "sopranoOne" {
+          \sopranoOneMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "sopranoTwo" {
+          \sopranoTwoMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "altoOne" {
+          \altoOneMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "altoTwo" {
+          \altoTwoMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "tenorOne" {
+          \tenorOneMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "tenorTwo" {
+          \tenorTwoMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "bassOne" {
+          \bassOneMusic
+        }
+      >>
+      \new Staff \with {
+        midiInstrument = \diminishedInstrument
+        midiMaximumVolume = \diminishedMaxVolume
+        midiMinimumVolume = \diminishedMinVolume
+        midiPanPosition = \diminishedPan
+      } <<
+        \new Voice = "bassTwo" {
+          \bassTwoMusic
+        }
+      >>
+    >>
+      
+    \midi {}
+  }
+}
