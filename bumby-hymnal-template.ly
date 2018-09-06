@@ -17,24 +17,74 @@
   Usage:
 
   bumby-hymnal-template.ly should be included at the *end* of the input file.
-  Before it are placed the required music and lyrics by redefining specific
-  variables, like this:
+  Before it are placed the required music and lyrics by defining some specific
+  variables.
+
+  General Variables and Controls:
+
+  Scripture = \markup { ... }
+      Required.  Contains markup of a scriptural quote.
+
+  ShowScriptureOnSheetMusic = ##f | ##t
+      Required.  When TRUE (##t) the scripture markup will be put on the sheet
+      music.  Otherwise it will only occur on the title slide.
+
+  Key = \key ...
+      Required.  A key expression.  This template only supports a single key.
+
+  MajorKey = ##t | ##f
+      Required.  For technical reasons it is difficult to obtain this from the
+      Key variable.  Is needed to choose the right shape note mapping.
 
   \header { ... }
-  Key = { ... }
   Time = { ... }
+
+  Music Variables:
+
+  Music variables are the combination of Voice and Section.  The voices are
+  Soprano, Alto, Tenor, Bass.  The Sections are Verse, Chorus, Coda.  All voices
+  must be provided.  Only section Verse is required.  Chorus and Coda are
+  optional.
+
   SopranoVerseMusic = \relative { ... }
+  SopranoChorusMusic = \relative { ... }
   AltoVerseMusic = \relative { ... }
+  AltoChorusMusic = \relative { ... }
+  TenorVerseMusic = \relative { ... }
+  TenorChorusMusic = \relative { ... }
+  BassVerseMusic = \relative { ... }
+  BassChorusMusic = \relative { ... }
+
+  Break controls:
+
+  Break control variables are available should you want to explicitly control
+  where systems break.  These will be a special hidden voice that includes
+  explicit system and page breaks.  These variables are defined by Section and
+  output formats.  The two output formats are SheetMusic and Slides.  Break
+  variables are optional.
+
+  SheetMusicVerseBreaks = \relative { ... }
+  SheetMusicChorusBreaks = \relative { ... }
+  SheetMusicCodaBreaks = \relative { ... }
+  SlidesVerseBreaks = \relative { ... }
+  SlidesChorusBreaks = \relative { ... }
+  SlidesCodaBreaks = \relative { ... }
+
+  Verses:
+
+  This template supports up to 9 verses.  Every voice has the same lyrics.
+  Each lyric will align to a special hidden Align voice.
+
   VerseOne = \lyricmode { ... }
+  AlignOneMusic = \relative { ... }
   VerseTwo = \lyricmode { ... }
+  AlignTwoMusic = \relative { ... }
   ...
   VerseNine = \lyricmode { ... }
-  TenorVerseMusic = \relative { ... }
-  BassVerseMusic = \relative { ... }
-  \include "bumby-hymnal-template.ly"
+  AlignNineMusic = \relative { ... }
 
-  All of the definitions are optional. Staves with no music will be
-  omitted from the output.
+  AlignChorusMusic = \relative { ... }
+  AlignCodaMusic = \relative { ... }
 
 TBD: revise from here down
   Other variables, such as the instrumentName, shortInstrumentName
@@ -201,10 +251,10 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
 % The variables defined here as empty lists will be provided
 % by the template, and may be set to any values there.
 #(define voice-prefixes '())   % eg "Soprano"
-#(define staff-names '())      % eg "WomenDividedStaff"
 #(define all-music-names '())  % eg "SopranoVerseMusic"
 #(define lyrics-postfixes '())	% eg "Lyrics"
 #(define lyrics-names '())     % eg "VerseOne"
+#(define align-names '())
 
 % Define the derived variables to be populated
 #(define AllMusic (make-music 'SequentialMusic 'void #t))
@@ -224,11 +274,6 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
      "Layout"
      "Time"
      "TwoVoicesPerStaff"))
-
-#(define staff-names
-   ;; These names are used verbatim in code, so may not be changed
-   '("WomenDividedStaff"
-     "MenDividedStaff"))
 
 #(define section-names
    ;; These names are used verbatim in code, so may not be changed
@@ -255,9 +300,6 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
 #(define (voice-prefix? x)
    (member x voice-prefixes))
 
-#(define (staff-name? x)
-   (member x staff-names))
-
 #(define (output-type? x)
    (member x output-types))
 
@@ -267,7 +309,10 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
 #(define (verses? x)
    (member x (append lyrics-names '("ChorusLyrics" "CodaLyrics"))))
 
-#(define (set-music-definitions! prefixes lyr-names)
+#(define (alignvoice? x)
+   (member x (append align-names '("AlignChorus" "AlignCoda"))))
+
+#(define (set-music-definitions! prefixes lyr-names algn-names)
   "Populate the name definitions and their derivatives
    with the values provided by the calling template"
    (ly:message "Step 1.1")
@@ -285,11 +330,13 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
    (ly:message "Step 1.5")
    (set! lyrics-names lyr-names)
    (ly:message "Step 1.6")
+   (set! align-names algn-names)
+   (ly:message "Step 1.7")
    (define-missing-variables! (append
                                   variable-names
                                   all-music-names
                                   lyrics-names))
-   (ly:message "Step 1.7")
+   (ly:message "Step 1.8")
    (set! AllMusic
      (make-simultaneous-music
       (filter ly:music?
@@ -297,10 +344,10 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
                (lambda (x)
                  (get-id x))
                all-music-names))))
-   (ly:message "Step 1.8")
+   (ly:message "Step 1.9")
    (set! KeepAlive
          (skip-of-length AllMusic))
-   (ly:message "Step 1.9")
+   (ly:message "Step 1.10")
    (set! have-music
          (ly:moment<?
           (ly:make-moment 0)
@@ -320,13 +367,10 @@ make-voice =
 
 make-one-stanza =
 #(define-music-function
-  (lyrics)
-  (verses?)
+  (lyrics voice)
+  (verses? alignvoice?)
 
    "Make a single stanza
-    staffPrefix: voice prefix for the staff to be positioned against
-    voicePrefix: voice prefix for the associated voice
-                 if the first is not present)
          lyrics: the words"
 
    (let* ((stanza (get-id lyrics)))
@@ -393,8 +437,8 @@ make-two-voice-staff =
 
 make-two-vocal-staves-with-stanzas =
 #(define-music-function
-  (outputType section verses)
-  (output-type? section? list?)
+  (outputType section verses alignvoices)
+  (output-type? section? list? list?)
 
   "Make two two-voice vocal staves with several stanzas between them.
 The number of stanzas is determined by the number of populated verse names.
@@ -406,9 +450,9 @@ The number of stanzas is determined by the number of populated verse names.
     (make-two-voice-staff outputType section #t "treble" "Soprano" "Alto")
     (make-simultaneous-music
      (map
-      (lambda (verse-name)
-        (make-one-stanza verse-name))
-        verses))
+      (lambda (verse-name align-name)
+        (make-one-stanza verse-name align-name))
+        verses alignvoices))
     (make-two-voice-staff outputType section #f "bass" "Tenor" "Bass"))))
 
 
@@ -436,6 +480,20 @@ The number of stanzas is determined by the number of populated verse names.
     "VerseEight"
     "VerseNine"))
 
+#(define satb-align-variable-names
+   ;; These define the names which may be used to specify the stanza alignment
+   ;; voices for the lyrics that go between the two two-voice staves when
+   ;; TwoVoicesPerStaff is set to #t.
+  '("AlignOne"
+    "AlignTwo"
+    "AlignThree"
+    "AlignFour"
+    "AlignFive"
+    "AlignSix"
+    "AlignSeven"
+    "AlignEight"
+    "AlignNine"))
+
 #(define chorus-lyrics-variable-names
    '("ChorusLyrics"))
 
@@ -443,7 +501,8 @@ The number of stanzas is determined by the number of populated verse names.
 %% make the above definitions available
 #(set-music-definitions!
   satb-voice-prefixes
-  satb-lyrics-variable-names)
+  satb-lyrics-variable-names
+  satb-align-variable-names)
 
 #(ly:message "Step 2")
 
@@ -637,6 +696,7 @@ ChorusScore = #(if HasChorus
           "SheetMusic"
           "Verse"
           #satb-lyrics-variable-names
+          #satb-align-variable-names
       >>
     >>
     \SheetMusicVerseLayout
@@ -685,6 +745,7 @@ VerseOneScore = #(if (get-id "VerseOne")
              "Slides"
              "Verse"
              #'("VerseOne")
+             #'("AlignOne")
          >>
        >>
        \SlideLayout
@@ -699,6 +760,7 @@ VerseTwoScore = #(if (get-id "VerseTwo")
              "Slides"
              "Verse"
              #'("VerseTwo")
+             #'("AlignTwo")
          >>
        >>
        \SlideLayout
@@ -713,6 +775,7 @@ VerseThreeScore = #(if (get-id "VerseThree")
              "Slides"
              "Verse"
              #'("VerseThree")
+             #'("AlignThree")
          >>
        >>
        \SlideLayout
@@ -727,6 +790,7 @@ VerseFourScore = #(if (get-id "VerseFour")
              "Slides"
              "Verse"
              #'("VerseFour")
+             #'("AlignFour")
          >>
        >>
        \SlideLayout
@@ -741,6 +805,7 @@ VerseFiveScore = #(if (get-id "VerseFive")
              "Slides"
              "Verse"
              #'("VerseFive")
+             #'("AlignFive")
          >>
        >>
        \SlideLayout
@@ -755,6 +820,7 @@ VerseSixScore = #(if (get-id "VerseSix")
              "Slides"
              "Verse"
              #'("VerseSix")
+             #'("AlignSix")
          >>
        >>
        \SlideLayout
@@ -769,6 +835,7 @@ VerseSevenScore = #(if (get-id "VerseSeven")
              "Slides"
              "Verse"
              #'("VerseSeven")
+             #'("AlignSeven")
          >>
        >>
        \SlideLayout
@@ -783,6 +850,7 @@ VerseEightScore = #(if (get-id "VerseEight")
              "Slides"
              "Verse"
              #'("VerseEight")
+             #'("AlignEight")
          >>
        >>
        \SlideLayout
@@ -797,6 +865,7 @@ VerseNineScore = #(if (get-id "VerseNine")
              "Slides"
              "Verse"
              #'("VerseNine")
+             #'("AlignNine")
          >>
        >>
        \SlideLayout
@@ -822,7 +891,7 @@ SlideChorusScore = #(if HasChorus
     \bookOutputName #(string-append BuildDir SongNumber " - " Title " - Slides")
   }
   \paper {
-    #(set-paper-size "arch a" 'landscape )
+    #(set-paper-size "arch alandscape" )
 
     %
     % Turn on to see spacing details while you tweek the layout
