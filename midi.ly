@@ -13,8 +13,8 @@ dominantMinVolume = #1.0
 dominantPan = #0.8
 dominantInstrument = "acoustic grand"
 
-diminishedMaxVolume = #0.35
-diminishedMinVolume = #0.35
+diminishedMaxVolume = #0.45
+diminishedMinVolume = #0.45
 diminishedPan = #-0.8
 diminishedInstrument = "voice oohs"
 

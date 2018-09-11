@@ -192,7 +192,7 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
      (ly:parser-define! (string->symbol "SheetMusicRaggedLast") #f))
 
 #(if (null? (ly:parser-lookup (string->symbol "SlideLyricMinimumDistance")))
-     (ly:parser-define! (string->symbol "SlideLyricMinimumDistance") 3))
+     (ly:parser-define! (string->symbol "SlideLyricMinimumDistance") 1))
 
 #(if (null? (ly:parser-lookup (string->symbol "SlideLyricFontSize")))
      (ly:parser-define! (string->symbol "SlideLyricFontSize") 3))
@@ -310,7 +310,7 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
    (member x (append lyrics-names '("ChorusLyrics" "CodaLyrics"))))
 
 #(define (alignvoice? x)
-   (member x (append align-names '("AlignChorus" "AlignCoda"))))
+   (member x (append align-names '("AlignChorusMusic" "AlignCodaMusic"))))
 
 #(define (set-music-definitions! prefixes lyr-names algn-names)
   "Populate the name definitions and their derivatives
@@ -610,6 +610,7 @@ ChorusScore = #(if HasChorus
             "SheetMusic"
             "Chorus"
             #chorus-lyrics-variable-names
+            #'("AlignChorusMusic")
         >>
       >>
       \SheetMusicChorusLayout
@@ -880,6 +881,7 @@ SlideChorusScore = #(if HasChorus
              "Slides"
              "Chorus"
              #'("ChorusLyrics")
+             #'("AlignChorusMusic")
          >>
        >>
        \SlideLayout
@@ -980,7 +982,7 @@ SlideChorusScore = #(if HasChorus
     \context ChoirStaff <<
       \context Staff = upper <<
         \context Voice = sopranos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \allInstrument
           midiMaximumVolume = \allMaxVolume
           midiMinimumVolume = \allMinVolume
           midiPanPosition = \allPan
@@ -992,7 +994,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = altos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \allInstrument
           midiMaximumVolume = \allMaxVolume
           midiMinimumVolume = \allMinVolume
           midiPanPosition = \allPan
@@ -1007,7 +1009,7 @@ SlideChorusScore = #(if HasChorus
       \context Staff = lower <<
         \clef bass
         \context Voice = tenors \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \allInstrument
           midiMaximumVolume = \allMaxVolume
           midiMinimumVolume = \allMinVolume
           midiPanPosition = \allPan
@@ -1019,7 +1021,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = basses \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \allInstrument
           midiMaximumVolume = \allMaxVolume
           midiMinimumVolume = \allMinVolume
           midiPanPosition = \allPan
@@ -1053,7 +1055,7 @@ SlideChorusScore = #(if HasChorus
     \context ChoirStaff <<
       \context Staff = upper <<
         \context Voice = sopranos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \dominantInstrument
           midiMaximumVolume = \dominantMaxVolume
           midiMinimumVolume = \dominantMinVolume
           midiPanPosition = \dominantPan
@@ -1065,7 +1067,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = altos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1080,7 +1082,7 @@ SlideChorusScore = #(if HasChorus
       \context Staff = lower <<
         \clef bass
         \context Voice = tenors \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1092,7 +1094,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = basses \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1126,7 +1128,7 @@ SlideChorusScore = #(if HasChorus
     \context ChoirStaff <<
       \context Staff = upper <<
         \context Voice = sopranos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1138,7 +1140,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = altos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \dominantInstrument
           midiMaximumVolume = \dominantMaxVolume
           midiMinimumVolume = \dominantMinVolume
           midiPanPosition = \dominantPan
@@ -1153,7 +1155,7 @@ SlideChorusScore = #(if HasChorus
       \context Staff = lower <<
         \clef bass
         \context Voice = tenors \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1165,7 +1167,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = basses \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1199,7 +1201,7 @@ SlideChorusScore = #(if HasChorus
     \context ChoirStaff <<
       \context Staff = upper <<
         \context Voice = sopranos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1211,7 +1213,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = altos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1226,7 +1228,7 @@ SlideChorusScore = #(if HasChorus
       \context Staff = lower <<
         \clef bass
         \context Voice = tenors \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \dominantInstrument
           midiMaximumVolume = \dominantMaxVolume
           midiMinimumVolume = \dominantMinVolume
           midiPanPosition = \dominantPan
@@ -1238,7 +1240,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = basses \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1272,7 +1274,7 @@ SlideChorusScore = #(if HasChorus
     \context ChoirStaff <<
       \context Staff = upper <<
         \context Voice = sopranos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1284,7 +1286,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = altos \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1299,7 +1301,7 @@ SlideChorusScore = #(if HasChorus
       \context Staff = lower <<
         \clef bass
         \context Voice = tenors \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \diminishedInstrument
           midiMaximumVolume = \diminishedMaxVolume
           midiMinimumVolume = \diminishedMinVolume
           midiPanPosition = \diminishedPan
@@ -1311,7 +1313,7 @@ SlideChorusScore = #(if HasChorus
           }
         }
         \context Voice = basses \with {
-          midiInstrument = "voice oohs"
+          midiInstrument = \dominantInstrument
           midiMaximumVolume = \dominantMaxVolume
           midiMinimumVolume = \dominantMinVolume
           midiPanPosition = \dominantPan
