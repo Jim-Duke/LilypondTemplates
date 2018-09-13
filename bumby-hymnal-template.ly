@@ -191,6 +191,12 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicRaggedLast")))
      (ly:parser-define! (string->symbol "SheetMusicRaggedLast") #f))
 
+#(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsMinimumDistance")))
+     (ly:parser-define! (string->symbol "SheetMusicLyricsMinimumDistance") 1))
+
+#(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsFontSize")))
+     (ly:parser-define! (string->symbol "SheetMusicLyricsFontSize") 0))
+
 #(if (null? (ly:parser-lookup (string->symbol "SlideLyricMinimumDistance")))
      (ly:parser-define! (string->symbol "SlideLyricMinimumDistance") 1))
 
@@ -199,9 +205,6 @@ SheetMusicScripture = #(if ShowScriptureOnSheetMusic
 
 #(if (null? (ly:parser-lookup (string->symbol "SlideNoteHeadFontSize")))
      (ly:parser-define! (string->symbol "SlideNoteHeadFontSize") 2))
-
-#(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsMinimumDistance")))
-     (ly:parser-define! (string->symbol "SheetMusicLyricsMinimumDistance") 3))
 
 %%% These are the general utility functions and storage
 %   used by the built-in templates and the template kits
@@ -517,7 +520,8 @@ The number of stanzas is determined by the number of populated verse names.
 SongNumber = #(ly:parser-lookup 'SongNumber)
 Title = #(ly:parser-lookup 'Title)
 FirstPage = #(ly:parser-lookup 'FirstPage)
-BuildDir = ""
+#(if (null? (ly:parser-lookup 'BuildDir))
+     (ly:parser-define! 'BuildDir ""))
 
 #(ly:message "Step 3")
 
@@ -534,7 +538,7 @@ SheetMusicVerseLayout = \layout {
       \context {
         \Lyrics
         \override LyricSpace.minimum-distance = \SheetMusicLyricsMinimumDistance
-        \override LyricText.font-size = #0
+        \override LyricText.font-size = \SheetMusicLyricsFontSize
         \override LyricText.self-alignment-X = #CENTER
         \override LyricHyphen.thickness = #1
         \override LyricHyphen.length = #1.0

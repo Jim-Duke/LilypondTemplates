@@ -21,6 +21,9 @@
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicRaggedBottom")))
      (ly:parser-define! (string->symbol "SheetMusicRaggedBottom") #t))
 
+#(if (null? (ly:parser-lookup (string->symbol "SlideStaffStaffSpacing")))
+     (ly:parser-define! (string->symbol "SlideStaffStaffSpacing") 11))
+
 SheetMusicScripture = #(if ShowScriptureOnSheetMusic
   (if (string? (ly:parser-lookup (string->symbol "Scripture")))
     #{
@@ -134,7 +137,7 @@ SlideLayout = \layout {
     \override StaffSymbol.thickness = #2
     \override NoteHead.font-size = \SlideNoteHeadFontSize
     \override Stem.length-fraction = #(magstep SlideNoteHeadFontSize)
-    \override VerticalAxisGroup.staff-staff-spacing = #'((basic-distance . 20))
+    \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SlideStaffStaffSpacing
     \aikenHeads
   }
   \context {
