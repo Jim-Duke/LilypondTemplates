@@ -77,7 +77,7 @@ SheetMusicVerseLayout = \layout {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
-        #(if 'MajorKey #{ \aikenHeads #} #{ \aikenHeadsMinor #})
+        #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
         \Score
@@ -107,7 +107,7 @@ SheetMusicChorusLayout = \layout {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
-        #(if 'MajorKey #{ \aikenHeads #} #{ \aikenHeadsMinor #})
+        #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
         \Score
@@ -138,7 +138,7 @@ SlideLayout = \layout {
     \override NoteHead.font-size = \SlideNoteHeadFontSize
     \override Stem.length-fraction = #(magstep SlideNoteHeadFontSize)
     \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SlideStaffStaffSpacing
-    \aikenHeads
+    #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
   }
   \context {
     \Score
