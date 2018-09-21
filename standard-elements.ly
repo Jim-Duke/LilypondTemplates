@@ -142,6 +142,10 @@ SlideLayout = \layout {
   }
   \context {
     \Score
+    \override SpacingSpanner.to-barline = ##f
+    \override SpacingSpanner.uniform-stretching = ##t
+    \override SpacingSpanner.shortest-duration-space = #2.0
+    \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 2)
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
   }
