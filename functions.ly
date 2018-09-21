@@ -26,3 +26,10 @@ that may be combined into a chord or unison.")
     #{ \with { \voiceOne \override DynamicLineSpanner.direction = #UP } #}
     #{ \with { \voiceTwo \override DynamicLineSpanner.direction = #DOWN } #}
     #{ #} ))
+
+#(define-markup-command (optional-field layout props label symbol) (string? symbol?)
+   (let ((option (chain-assoc-get symbol props)))
+     (interpret-markup layout props
+       (if (string? option)
+           (markup (string-append label option))
+           option))))
