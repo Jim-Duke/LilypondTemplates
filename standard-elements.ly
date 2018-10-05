@@ -15,6 +15,9 @@
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsMinimumDistance")))
      (ly:parser-define! (string->symbol "SheetMusicLyricsMinimumDistance") 3))
 
+#(if (null? (ly:parser-lookup (string->symbol "SheetStaffStaffSpacing")))
+     (ly:parser-define! (string->symbol "SheetStaffStaffSpacing") 11))
+
 #(if (null? (ly:parser-lookup (string->symbol "ShowScriptureOnSheetMusic")))
      (ly:parser-define! (string->symbol "ShowScriptureOnSheetMusic") #f))
 
@@ -67,6 +70,7 @@ SheetMusicVerseLayout = \layout {
         \override LyricText.self-alignment-X = #CENTER
         \override LyricHyphen.thickness = #1
         \override LyricHyphen.length = #1.0
+        \override VerticalAxisGroup.staff-affinity = #CENTER
         \override VerticalAxisGroup.nonstaff-nonstaff-spacing =
             #'((basic-distance . 0)
                (minimum-distance . 0)
@@ -77,12 +81,13 @@ SheetMusicVerseLayout = \layout {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
+        \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SheetStaffStaffSpacing
         #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
         \Score
         \override SpacingSpanner.uniform-stretching = ##t
-        \override SpacingSpanner.shortest-duration-space = #2.0
+        \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
         \remove "Bar_number_engraver"
       }
@@ -107,12 +112,13 @@ SheetMusicChorusLayout = \layout {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
+        \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SheetStaffStaffSpacing
         #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
         \Score
         \override SpacingSpanner.uniform-stretching = ##t
-        \override SpacingSpanner.shortest-duration-space = #2.0
+        \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
         \remove "Bar_number_engraver"
         \remove "Metronome_mark_engraver"
@@ -144,7 +150,7 @@ SlideLayout = \layout {
     \Score
     \override SpacingSpanner.to-barline = ##f
     \override SpacingSpanner.uniform-stretching = ##t
-    \override SpacingSpanner.shortest-duration-space = #2.0
+    \override SpacingSpanner.shortest-duration-space = #20.0
     \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 2)
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
