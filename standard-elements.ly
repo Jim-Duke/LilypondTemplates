@@ -15,6 +15,9 @@
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsMinimumDistance")))
      (ly:parser-define! (string->symbol "SheetMusicLyricsMinimumDistance") 3))
 
+#(if (null? (ly:parser-lookup (string->symbol "SheetStaffStaffSpacing")))
+     (ly:parser-define! (string->symbol "SheetStaffStaffSpacing") 11))
+
 #(if (null? (ly:parser-lookup (string->symbol "ShowScriptureOnSheetMusic")))
      (ly:parser-define! (string->symbol "ShowScriptureOnSheetMusic") #f))
 
@@ -87,7 +90,7 @@ SheetMusicVerseLayout = \layout {
       \context {
         \Score
         \override SpacingSpanner.uniform-stretching = ##t
-        \override SpacingSpanner.shortest-duration-space = #2.0
+        \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
         \remove "Bar_number_engraver"
       }
@@ -119,7 +122,7 @@ SheetMusicChorusLayout = \layout {
       \context {
         \Score
         \override SpacingSpanner.uniform-stretching = ##t
-        \override SpacingSpanner.shortest-duration-space = #2.0
+        \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
         \remove "Bar_number_engraver"
         \remove "Metronome_mark_engraver"
@@ -151,7 +154,7 @@ SlideLayout = \layout {
     \Score
     \override SpacingSpanner.to-barline = ##f
     \override SpacingSpanner.uniform-stretching = ##t
-    \override SpacingSpanner.shortest-duration-space = #16.0
+    \override SpacingSpanner.shortest-duration-space = #20.0
     \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 2)
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
