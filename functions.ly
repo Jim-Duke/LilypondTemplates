@@ -25,7 +25,7 @@ that may be combined into a chord or unison.")
    (make-directed-part-combine-music #f chord-range part1 part2
     #{ \with { \voiceOne \override DynamicLineSpanner.direction = #UP } #}
     #{ \with { \voiceTwo \override DynamicLineSpanner.direction = #DOWN } #}
-    #{ #} ))
+    #{ \autoBeamOff #} ))
 
 #(define-markup-command (optional-field layout props label symbol) (string? symbol?)
    (let ((option (chain-assoc-get symbol props)))

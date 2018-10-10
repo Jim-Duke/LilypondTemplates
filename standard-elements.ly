@@ -24,6 +24,9 @@
 #(if (null? (ly:parser-lookup (string->symbol "SlideStaffStaffSpacing")))
      (ly:parser-define! (string->symbol "SlideStaffStaffSpacing") 11))
 
+#(if (null? (ly:parser-lookup (string->symbol "SheetMusicStaffStaffSpacing")))
+     (ly:parser-define! (string->symbol "SheetMusicStaffStaffSpacing") 11))
+
 SheetMusicScripture = #(if ShowScriptureOnSheetMusic
   (if (string? (ly:parser-lookup (string->symbol "Scripture")))
     #{
@@ -67,16 +70,18 @@ SheetMusicVerseLayout = \layout {
         \override LyricText.self-alignment-X = #CENTER
         \override LyricHyphen.thickness = #1
         \override LyricHyphen.length = #1.0
+        \override VerticalAxisGroup.staff-affinity = #CENTER
         \override VerticalAxisGroup.nonstaff-nonstaff-spacing =
             #'((basic-distance . 0)
                (minimum-distance . 0)
-               (padding . 0.85)
+               (padding . 0.5)
                (stretchability . 0))
       }
       \context {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
+        \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SheetMusicStaffStaffSpacing
         #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
@@ -97,16 +102,18 @@ SheetMusicChorusLayout = \layout {
         \override LyricText.self-alignment-X = #CENTER
         \override LyricHyphen.thickness = #1
         \override LyricHyphen.length = #1.0
+        \override VerticalAxisGroup.staff-affinity = #CENTER
         \override VerticalAxisGroup.nonstaff-nonstaff-spacing =
             #'((basic-distance . 0)
                (minimum-distance . 0)
-               (padding . 0.85)
+               (padding . 0.5)
                (stretchability . 0))
       }
       \context {
         \Staff
         \override StaffSymbol.thickness = #1
         \override NoteHead.font-size = #1
+        \override VerticalAxisGroup.staff-staff-spacing.basic-distance = \SheetMusicStaffStaffSpacing
         #(if 'MajorKey #{ \aikenThinHeads #} #{ \aikenThinHeadsMinor #})
       }
       \context {
@@ -144,7 +151,7 @@ SlideLayout = \layout {
     \Score
     \override SpacingSpanner.to-barline = ##f
     \override SpacingSpanner.uniform-stretching = ##t
-    \override SpacingSpanner.shortest-duration-space = #2.0
+    \override SpacingSpanner.shortest-duration-space = #16.0
     \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 2)
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
