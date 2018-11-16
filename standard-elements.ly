@@ -10,7 +10,7 @@
      (ly:parser-define! (string->symbol "SlideLyricFontSize") 3))
 
 #(if (null? (ly:parser-lookup (string->symbol "SlideNoteHeadFontSize")))
-     (ly:parser-define! (string->symbol "SlideNoteHeadFontSize") 2))
+     (ly:parser-define! (string->symbol "SlideNoteHeadFontSize") 2.0))
 
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicLyricsMinimumDistance")))
      (ly:parser-define! (string->symbol "SheetMusicLyricsMinimumDistance") 3))
@@ -25,7 +25,7 @@
      (ly:parser-define! (string->symbol "SheetMusicRaggedBottom") #t))
 
 #(if (null? (ly:parser-lookup (string->symbol "SlideStaffStaffSpacing")))
-     (ly:parser-define! (string->symbol "SlideStaffStaffSpacing") 11))
+     (ly:parser-define! (string->symbol "SlideStaffStaffSpacing") 16))
 
 #(if (null? (ly:parser-lookup (string->symbol "SheetMusicStaffStaffSpacing")))
      (ly:parser-define! (string->symbol "SheetMusicStaffStaffSpacing") 11))
@@ -92,6 +92,7 @@ SheetMusicVerseLayout = \layout {
         \override SpacingSpanner.uniform-stretching = ##t
         \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
+        \override BarLine.space-alist = #'((first-note minimum-space . 5.0) (right-edge minimum-space . 0.0))
         \remove "Bar_number_engraver"
       }
     }
@@ -124,6 +125,7 @@ SheetMusicChorusLayout = \layout {
         \override SpacingSpanner.uniform-stretching = ##t
         \override SpacingSpanner.shortest-duration-space = #20.0
         \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2)
+        \override BarLine.space-alist = #'((first-note minimum-space . 5.0) (right-edge minimum-space . 0.0))
         \remove "Bar_number_engraver"
         \remove "Metronome_mark_engraver"
       }
@@ -156,6 +158,7 @@ SlideLayout = \layout {
     \override SpacingSpanner.uniform-stretching = ##t
     \override SpacingSpanner.shortest-duration-space = #20.0
     \override SpacingSpanner.common-shortest-duration = #(ly:make-moment 2)
+    \override BarLine.space-alist = #'((first-note minimum-space . 5.0) (right-edge minimum-space . 0.0))
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
   }

@@ -4,8 +4,8 @@
 % default settings for typesetting hymns for 8.5x11 sheet music, and 4x3 slides
 %
 
-defaultTopSystemOffset = #2
-defaultBottomSystemOffset = #29
+defaultTopSystemOffset = #5
+defaultBottomSystemOffset = #30
 
 %
 % Default settings for sheet music
