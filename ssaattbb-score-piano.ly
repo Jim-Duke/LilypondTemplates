@@ -36,14 +36,6 @@
       %\override Score.BarNumber.break-visibility = ##(#t #t #t)
       %\set Score.barNumberVisibility = #all-bar-numbers-visible
       \new Staff \with {
-        instrumentName = "Solo"
-        shortInstrumentName = "Solo"
-      } <<
-        \new Voice = "solo" {
-          \soloMusic
-        }
-      >>
-      \new Staff \with {
         instrumentName = "Soprano I"
         shortInstrumentName = "Sop I"
       } <<
@@ -75,6 +67,38 @@
           \altoTwoMusic
         }
       >>
+      \new Staff \with {
+        instrumentName = "Tenor I"
+        shortInstrumentName = "Ten I"
+      } <<
+        \new Voice = "tenorOne" {
+          \tenorOneMusic
+        }
+      >>
+      \new Staff \with {
+        instrumentName = "Tenor II"
+        shortInstrumentName = "Ten II"
+      } <<
+        \new Voice = "tenorTwo" {
+          \tenorTwoMusic
+        }
+      >>
+      \new Staff \with {
+        instrumentName = "Bass I"
+        shortInstrumentName = "Bas I"
+      } <<
+        \new Voice = "bassOne" {
+          \bassOneMusic
+        }
+      >>
+      \new Staff \with {
+        instrumentName = "Bass II"
+        shortInstrumentName = "Bas II"
+      } <<
+        \new Voice = "bassTwo" {
+          \bassTwoMusic
+        }
+      >>
       \new PianoStaff \with {
         instrumentName = "Piano"
         shortInstrumentName = "P"
@@ -86,25 +110,8 @@
           \pianoLeftHandMusic
         }
       >>
-      \new Staff \with {
-        instrumentName = "Violin 1"
-        shortInstrumentName = "Vn 1"
-      } <<
-        \violinOneMusic
-      >>
-      \new Staff \with {
-        instrumentName = "Violin 2"
-        shortInstrumentName = "Vn 2"
-      } <<
-        \violinTwoMusic
-      >>
     >>
       
-    \layout {
-      \context {
-        \Voice
-        \consists "Ambitus_engraver"
-      }
-    }
+    \layout { }
   }
 }

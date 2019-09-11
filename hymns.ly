@@ -6,6 +6,8 @@
 
 defaultTopSystemOffset = #5
 defaultBottomSystemOffset = #30
+defaultNextTopSystemOffset = #2
+defaultNextBottomSystemOffset = #28
 
 %
 % Default settings for sheet music

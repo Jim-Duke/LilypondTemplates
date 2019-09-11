@@ -4,7 +4,7 @@
 % All Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - All")
+  \bookOutputName #(string-append Title "_all")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -114,7 +114,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Soprano I")
+  \bookOutputName #(string-append Title "_soprano_1")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -224,7 +224,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Soprano II")
+  \bookOutputName #(string-append Title "_soprano_2")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -334,7 +334,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Alto I")
+  \bookOutputName #(string-append Title "_alto_1")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -444,7 +444,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Alto II")
+  \bookOutputName #(string-append Title "_alto_2")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -554,7 +554,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Tenor I")
+  \bookOutputName #(string-append Title "_tenor_1")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -664,7 +664,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Tenor II")
+  \bookOutputName #(string-append Title "_tenor_2")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -774,7 +774,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Bass I")
+  \bookOutputName #(string-append Title "_bass_1")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -884,7 +884,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Bass II")
+  \bookOutputName #(string-append Title "_bass_2")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
@@ -994,7 +994,7 @@
 % Soprano I Midi
 %
 \book {
-  \bookOutputName #(string-append Title " - Solo")
+  \bookOutputName #(string-append Title "_solo")
   \score {
     \new StaffGroup <<
       \new DrumStaff \with {
